@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:freezed_flutt/model/user.dart';
+import 'package:freezed_flutt/model/model_user/user.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -9,6 +9,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<User> userList = [
+    User(fName: 'Harry', lName: 'Roy', isActive: true),
+    User(fName: 'Peter', lName: 'Parker', isActive: false),
+    User(fName: 'Smith', lName: 'Steve', isActive: true),
+    User(fName: 'Honey', lName: 'Thakur', isActive: true),
+    User(fName: 'Rohit', lName: 'Sharma'),
+  ];
+
   //for fromJson
   var map = {
     'fName': 'Ram',
@@ -17,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   };
 
   //for toJSon
-  var user = User(fName: 'Honey', lName: 'Singh', isActive: false);
+  var user1 = User(fName: 'Honey', lName: 'Singh', isActive: false);
 
   @override
   Widget build(BuildContext context) {
@@ -30,18 +38,27 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Container(
         margin: const EdgeInsets.all(15),
         child: ListView.builder(
+          itemCount: userList.length,
           itemBuilder: (context, index) {
-            return ListTile();
+            final userData = userList[index];
+            return ListTile(
+              leading: Text(index.toString()),
+              title: Text('${userData.fName}  ${userData.lName}'),
+              subtitle: Text('Active : ${userData.isActive}'),
+            );
           },
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           var user = User.fromJson(map);
-          print(user);
+          debugPrint(user.toString());
 
-          var mapData = user.toJson();
-          print(mapData);
+          var mapData = user1.toJson();
+          debugPrint(mapData.toString());
+
+          var user2 = user.copyWith(fName: "Money", lName: 'Ray');
+          debugPrint(user2.toString());
         },
         child: const Icon(Icons.add),
       ),
